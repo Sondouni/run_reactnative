@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import type {Node} from 'react';
 import {
     SafeAreaView,
@@ -16,6 +16,7 @@ import {
     Text,
     useColorScheme,
     View,
+    PermissionsAndroid
 } from 'react-native';
 
 import {
@@ -32,10 +33,44 @@ import AppNavigation from './navigation/AppNavigation';
 const App: () => Node = () => {
     const isDarkMode = useColorScheme() === 'dark';
 
+    const [locaPermission,setLocaPermission] = useState(null);
+
+    const requestLocationPermission = async () =>{
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        console.log(granted);
+        setLocaPermission(granted);
+    }
+
+    useEffect(()=>{
+        requestLocationPermission();
+    },[])
+
+
     return (
-        <NavigationContainer>
-            <AppNavigation/>
-        </NavigationContainer>
+        <>
+            {locaPermission==null?
+                    (
+                        <></>
+                    )
+                :
+                    (locaPermission?
+                                (
+                                    <NavigationContainer>
+                                        <AppNavigation/>
+                                    </NavigationContainer>
+                                )
+
+                            :
+                                (
+                                    <></>
+                                )
+
+                        )
+
+            }
+
+        </>
     );
 };
 

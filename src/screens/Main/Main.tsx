@@ -48,6 +48,7 @@ function Main({navigation}: any) {
         if(watchId!=null){
             Geolocation.clearWatch(watchId);
             setWatchId(null)
+            setMyCurLocaList([]);
         }
     }
 
@@ -61,6 +62,7 @@ function Main({navigation}: any) {
         setMyCurLocaList(state=>{
             return state.concat({latitude:obj.coords.latitude,longitude:obj.coords.longitude})
         })
+        setCurLoca(obj.coords);
         console.log(obj,"watch");
     }
 
@@ -87,6 +89,12 @@ function Main({navigation}: any) {
                             latitudeDelta: 0.01,
                             longitudeDelta: 0.01,
                         }}
+                        region={{
+                            latitude: curLoca.latitude,
+                            longitude: curLoca.longitude,
+                            latitudeDelta: 0.01,
+                            longitudeDelta: 0.01,
+                        }}
                         showsUserLocation={true}
                         showsMyLocationButton={true}
                         customMapStyle={MapStyle}
@@ -103,36 +111,28 @@ function Main({navigation}: any) {
                             // ]}
                             coordinates={myCurLocaList}
                             strokeColor="white" // fallback for when `strokeColors` is not supported by the map-provider
-                            // strokeColors={[
-                            //     '#7F0000',
-                            //     '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-                            //     '#B24112',
-                            //     '#E5845C',
-                            //     '#238C23',
-                            //     '#7F0000',
-                            // ]}
                             strokeWidth={6}
                         />
-                        <Polyline
-                            coordinates={[
-                                {latitude: 37.520926, longitude: 127.0265895},
-                                {latitude: 37.5210, longitude: 127.0264895},
-                                {latitude: 37.5220, longitude: 127.0263895},
-                                {latitude: 37.5230, longitude: 127.0262895},
-                                {latitude: 37.5240, longitude: 127.0261895},
-                                {latitude: 37.5250, longitude: 127.0260895},
-                            ]}
-                            strokeColor="yellow" // fallback for when `strokeColors` is not supported by the map-provider
-                            // strokeColors={[
-                            //     '#7F0000',
-                            //     '#00000000', // no color, creates a "long" gradient between the previous and next coordinate
-                            //     '#B24112',
-                            //     '#E5845C',
-                            //     '#238C23',
-                            //     '#7F0000',
-                            // ]}
-                            strokeWidth={6}
-                        />
+                        {/*<Polyline*/}
+                        {/*    coordinates={[*/}
+                        {/*        {latitude: 37.520926, longitude: 127.0265895},*/}
+                        {/*        {latitude: 37.5210, longitude: 127.0264895},*/}
+                        {/*        {latitude: 37.5220, longitude: 127.0263895},*/}
+                        {/*        {latitude: 37.5230, longitude: 127.0262895},*/}
+                        {/*        {latitude: 37.5240, longitude: 127.0261895},*/}
+                        {/*        {latitude: 37.5250, longitude: 127.0260895},*/}
+                        {/*    ]}*/}
+                        {/*    strokeColor="yellow" // fallback for when `strokeColors` is not supported by the map-provider*/}
+                        {/*    // strokeColors={[*/}
+                        {/*    //     '#7F0000',*/}
+                        {/*    //     '#00000000', // no color, creates a "long" gradient between the previous and next coordinate*/}
+                        {/*    //     '#B24112',*/}
+                        {/*    //     '#E5845C',*/}
+                        {/*    //     '#238C23',*/}
+                        {/*    //     '#7F0000',*/}
+                        {/*    // ]}*/}
+                        {/*    strokeWidth={6}*/}
+                        {/*/>*/}
                     </MapView>
                 }
                 <View style={{position:'absolute',bottom:50,alignSelf:'center'}}>
